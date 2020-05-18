@@ -1,0 +1,15 @@
+{
+  "name": "service-worker-demo",
+  "version": "1.0.0",
+  "main": "index.html",
+  "repository": "https://github.com/andyjakubowski/service-worker-demo.git",
+  "author": "Andy Jakubowski <hello@andyjakubowski.com>",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "browser-sync": "^2.26.7"
+  },
+  "scripts": {
+    "start": "browser-sync start --server 'src' --files 'src'"
+  }
+}
