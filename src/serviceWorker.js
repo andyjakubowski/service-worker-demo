@@ -25,7 +25,8 @@ self.addEventListener("activate", (e) => {
 });
 
 self.addEventListener("message", (e) => {
-  // log(e);
+  console.log("Service Worker: message fired.");
+  console.log(e);
 });
 
 self.addEventListener("fetch", (e) => {
