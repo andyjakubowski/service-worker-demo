@@ -1,8 +1,9 @@
+const path = "/src";
+
 self.addEventListener("install", (event) => {
-  console.log("Service Worker: install fired.");
+  console.log("[🤖SW] install fired.");
   event.waitUntil(
     caches.open("v1").then((cache) => {
-      const path = "/src";
       const items = [
         `${path}/`,
         `${path}/index.html`,
@@ -19,16 +20,32 @@ self.addEventListener("install", (event) => {
   );
 });
 
-self.addEventListener("activate", (e) => {
-  console.log("Service Worker: activate fired.");
-  // log(e);
+self.addEventListener("activate", (event) => {
+  console.log("[🤖SW] activate fired.");
 });
 
-self.addEventListener("message", (e) => {
-  console.log("Service Worker: message fired.");
+self.addEventListener("message", (event) => {
+  console.log("[🤖SW] message fired.");
   console.log(e);
 });
 
-self.addEventListener("fetch", (e) => {
-  console.log("Service Worker: fetch fired:", e.request.url);
+self.addEventListener("fetch", (event) => {
+  console.log("[🤖SW] fetch fired:", event.request.url);
+  event.respondWith(
+    caches.match(event.request).then((response) => {
+      if (response) {
+        return response;
+      } else {
+        return fetch(event.request)
+          .then((response) => {
+            const responseClone = response.clone();
+            caches.open("v1").then((cache) => {
+              cache.put(event.request, responseClone);
+            });
+            return response;
+          })
+          .catch(() => caches.match(`${path}/images/leaves.jpg`));
+      }
+    })
+  );
 });
