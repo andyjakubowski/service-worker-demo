@@ -61,8 +61,8 @@ function runApp() {
 
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker
-    .register("/service-worker-demo/src/serviceWorker.js", {
-      scope: "/service-worker-demo/src/",
+    .register("/service-worker-demo/serviceWorker.js", {
+      scope: "/service-worker-demo/",
     })
     .then((registration) => {
       console.log(
