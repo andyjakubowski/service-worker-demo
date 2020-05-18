@@ -1,4 +1,4 @@
-const path = "/src";
+const path = "/service-worker-demo";
 
 self.addEventListener("install", (event) => {
   console.log("[🤖SW] install fired.");
