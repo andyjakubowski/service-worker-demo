@@ -13,6 +13,6 @@
   },
   "scripts": {
     "start": "browser-sync start --server 'src' --files 'src'",
-    "deploy": "gh-pages -d src"
+    "deploy": "gh-pages -d '.'"
   }
 }
