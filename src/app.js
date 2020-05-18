@@ -61,7 +61,9 @@ function runApp() {
 
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker
-    .register("/src/serviceWorker.js", { scope: "/src/" })
+    .register("/service-worker-demo/src/serviceWorker.js", {
+      scope: "/service-worker-demo/src/",
+    })
     .then((registration) => {
       console.log(
         "Successful Service Worker registration. Scope:",
