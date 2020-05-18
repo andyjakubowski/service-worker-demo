@@ -59,6 +59,28 @@ function runApp() {
   });
 }
 
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker
+    .register("/src/serviceWorker.js", { scope: "/src/" })
+    .then((registration) => {
+      console.log(
+        "Successful Service Worker registration. Scope:",
+        registration.scope
+      );
+
+      if (registration.installing) {
+        console.log("Service worker installing");
+      } else if (registration.waiting) {
+        console.log("Service worker installed");
+      } else if (registration.active) {
+        console.log("Service worker active");
+      }
+    })
+    .catch((error) => {
+      console.log("Service Worker registration failed:", error);
+    });
+}
+
 if (document.readyState !== "loading") {
   runApp();
 } else {

@@ -15,10 +15,11 @@ header {
 }
 
 main {
-  display: grid;
-  grid: 1fr 1fr / 1fr 1fr;
-  column-gap: 32px;
-  row-gap: 56px;
+  display: flex;
+  gap: 16px;
+  /* grid: 1fr 1fr / 1fr 1fr; */
+  /* column-gap: 32px; */
+  /* row-gap: 56px; */
   padding-block-end: 64px;
 }
 
@@ -38,5 +39,5 @@ figcaption {
 img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
 }
