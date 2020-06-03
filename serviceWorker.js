@@ -1,14 +1,36 @@
 const path = '/service-worker-demo';
 
-// sdfsdlkj
+function log(type = 'log', message) {
+  const prefix = [
+    '%cService Worker%c',
+    `
+  color: black;
+  background-color: #FFC857;
+  padding: 0 4px;
+  font-weight: bold;
+
+  `,
+    '',
+  ];
+
+  switch (type) {
+    case 'info':
+      console.info(...prefix, message);
+      break;
+    default:
+      console.log(...prefix, message);
+  }
+}
+
+function info(message) {
+  log('info', message);
+}
 
 self.addEventListener('install', (event) => {
-  console.log('[🤖SW] install fired.');
+  info('install');
   event.waitUntil(
     caches.open('v1').then((cache) => {
       const items = [
-        `${path}/`,
-        `${path}/index.html`,
         `${path}/styles.css`,
         `${path}/images/sunflower.jpg`,
         `${path}/images/icyWaterfall.jpg`,
@@ -22,40 +44,30 @@ self.addEventListener('install', (event) => {
 });
 
 self.addEventListener('activate', (event) => {
-  console.log('[🤖SW] activate fired.');
+  info('activate');
 });
 
 self.addEventListener('message', (event) => {
-  console.log('[🤖SW] message fired.');
+  info('message');
   console.log(e);
 });
 
 self.addEventListener('fetch', (event) => {
-  console.log('[🤖SW] fetch fired:', event.request.url);
+  // I run a local server and live reload the browser with browser-sync
+  // Ignore browser-sync requests
+  if (event.request.url.includes('browser-sync')) {
+    return fetch(event.request);
+  }
+
   event.respondWith(
-    caches
-      .match(event.request)
-      .then((response) => response || fetch(event.request))
+    caches.match(event.request).then((response) => {
+      if (response) {
+        info(`fetch (serving from CacheStorage): ${event.request.url}`);
+        return response;
+      } else {
+        info(`fetch (no cache, sending request): ${event.request.url}`);
+        return fetch(event.request);
+      }
+    })
   );
 });
-
-// self.addEventListener('fetch', (event) => {
-//   console.log('[🤖SW] fetch fired:', event.request.url);
-//   event.respondWith(
-//     caches.match(event.request).then((response) => {
-//       if (response) {
-//         return response;
-//       } else {
-//         return fetch(event.request)
-//           .then((response) => {
-//             const responseClone = response.clone();
-//             caches.open('v1').then((cache) => {
-//               cache.put(event.request, responseClone);
-//             });
-//             return response;
-//           })
-//           .catch(() => caches.match(`${path}/images/leaves.jpg`));
-//       }
-//     })
-//   );
-// });
