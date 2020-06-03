@@ -59,26 +59,20 @@ function runApp() {
   });
 }
 
-// ba ba ba
-
+// Note that the scriptURL is meant to be relative to the parent folder of the
+// project.
+// So run the server at ..
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker
     .register('/service-worker-demo/serviceWorker.js', {
       scope: '/service-worker-demo/',
     })
     .then((registration) => {
-      console.log(
-        'Successful Service Worker registration. Scope:',
-        registration.scope
-      );
+      console.log('App: successful Service Worker registration.');
 
-      if (registration.installing) {
-        console.log('Service worker installing');
-      } else if (registration.waiting) {
-        console.log('Service worker installed');
-      } else if (registration.active) {
-        console.log('Service worker active');
-      }
+      console.log('installing: ', registration.installing);
+      console.log('waiting: ', registration.waiting);
+      console.log('active: ', registration.active);
     })
     .catch((error) => {
       console.log('Service Worker registration failed:', error);
